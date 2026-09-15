@@ -1,0 +1,19 @@
+training:
+  output_dir: "checkpoints"
+  dataset_dir: "datasets/generated"
+  seed: 7
+  batch_size: 8
+  learning_rate: 0.0001
+  policy_name: "smolvla"
+  enabled: false
+demonstrations:
+  output_dir: "datasets/raw"
+  episodes: 3
+  language_instruction: "Set the dinner table."
+  max_steps: 500
+policy:
+  type: "smolvla"
+  pretrained: true
+  checkpoint: null
+  device: "cpu"
+  fallback_to_scripted: true

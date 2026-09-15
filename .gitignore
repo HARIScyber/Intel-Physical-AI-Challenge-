@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+logs/*
+outputs/*
+checkpoints/*
+datasets/generated/*
+!.gitkeep
+.vscode/*.log

@@ -1,0 +1,360 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Run Simulation",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_simulation.py",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Run Baseline",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_demo.py",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Generate Dataset",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/project_datasets/validate_dataset.py",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Validate Dataset",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/project_datasets/validate_dataset.py",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.py",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Train Policy",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/train.py",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Run VLA",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_vla_inference.py",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Run Evaluation",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/evaluate.py",
+      "args": [],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Run 10 Seeds",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_simulation.py",
+      "args": [
+        "--mode", "medium",
+        "--seeds", "0,1,2,3,4,5,6,7,8,9",
+        "--episodes", "10"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: OpenVINO Convert",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/optimization/convert_openvino.py",
+      "args": [
+        "lerobot/smolvla_base",
+        "--force"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: OpenVINO Benchmark",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/optimization/intel_benchmark.py",
+      "args": [
+        "lerobot/smolvla_base",
+        "--iterations", "3",
+        "--warmup", "1",
+        "--task-episodes", "1",
+        "--task-steps", "1"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Run Tests",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_tests.py",
+      "args": [
+        "tests/unit/"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Run Full Pipeline",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/full_pipeline.py",
+      "args": [
+        "--checkpoint", "lerobot/smolvla_base",
+        "--output-dir", "outputs/benchmarks",
+        "--device", "cpu",
+        "--iterations", "3",
+        "--warmup", "1",
+        "--task-episodes", "1",
+        "--task-steps", "1"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Debug Simulation",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_simulation.py",
+      "args": [
+        "--mode", "easy",
+        "--seed", "0",
+        "--headless"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Debug Baseline",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_demo.py",
+      "args": [
+        "--headless"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Debug Training",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/train.py",
+      "args": [
+        "--epochs", "1",
+        "--batch-size", "1",
+        "--device", "cpu"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    },
+    {
+      "name": "Python: Debug Evaluation",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/evaluate.py",
+      "args": [
+        "--mode", "easy"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "stopOnEntry": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "cwd": "${workspaceFolder}",
+      "python": {
+        "pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+        "debugOptions": [
+          "RedirectOutput"
+        ]
+      }
+    }
+  ]
+}

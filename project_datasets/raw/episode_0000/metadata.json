@@ -1,0 +1,1147 @@
+{
+  "episode_id": "episode_0000",
+  "seed": 7,
+  "language_instruction": "Set the dinner table.",
+  "task": {
+    "goal": "set_dinner_table",
+    "objects": [
+      "plate",
+      "cup",
+      "spoon",
+      "fork"
+    ],
+    "constraints": [],
+    "requires_bimanual": false,
+    "steps": [
+      {
+        "action": "place",
+        "objects": [
+          "plate"
+        ],
+        "relation": null,
+        "quantity": 1,
+        "arm": null
+      },
+      {
+        "action": "place",
+        "objects": [
+          "cup"
+        ],
+        "relation": null,
+        "quantity": 1,
+        "arm": null
+      },
+      {
+        "action": "place",
+        "objects": [
+          "spoon"
+        ],
+        "relation": null,
+        "quantity": 1,
+        "arm": null
+      },
+      {
+        "action": "place",
+        "objects": [
+          "fork"
+        ],
+        "relation": null,
+        "quantity": 1,
+        "arm": null
+      }
+    ],
+    "raw_instruction": "Set the dinner table.",
+    "confidence": 1.0
+  },
+  "reset_info": {
+    "seed": 7
+  },
+  "step_count": 214,
+  "episode_duration_seconds": 34.516172647476196,
+  "action_names": [
+    "observe",
+    "observe",
+    "observe",
+    "observe",
+    "locate_drawer",
+    "locate_drawer",
+    "locate_drawer",
+    "locate_drawer",
+    "locate_drawer",
+    "locate_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "open_drawer",
+    "locate_utensils",
+    "locate_utensils",
+    "locate_utensils",
+    "locate_utensils",
+    "locate_utensils",
+    "locate_utensils",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "pick",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "retrieve",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "transport",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "place",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "coordinate",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "handoff",
+    "verify",
+    "verify",
+    "verify",
+    "verify",
+    "verify",
+    "verify",
+    "verify",
+    "verify",
+    "verify",
+    "verify",
+    "finish",
+    "finish"
+  ],
+  "image_paths": [
+    {
+      "overhead": "frames\\frame_000000_overhead.png",
+      "front": "frames\\frame_000000_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000001_overhead.png",
+      "front": "frames\\frame_000001_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000002_overhead.png",
+      "front": "frames\\frame_000002_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000003_overhead.png",
+      "front": "frames\\frame_000003_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000004_overhead.png",
+      "front": "frames\\frame_000004_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000005_overhead.png",
+      "front": "frames\\frame_000005_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000006_overhead.png",
+      "front": "frames\\frame_000006_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000007_overhead.png",
+      "front": "frames\\frame_000007_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000008_overhead.png",
+      "front": "frames\\frame_000008_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000009_overhead.png",
+      "front": "frames\\frame_000009_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000010_overhead.png",
+      "front": "frames\\frame_000010_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000011_overhead.png",
+      "front": "frames\\frame_000011_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000012_overhead.png",
+      "front": "frames\\frame_000012_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000013_overhead.png",
+      "front": "frames\\frame_000013_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000014_overhead.png",
+      "front": "frames\\frame_000014_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000015_overhead.png",
+      "front": "frames\\frame_000015_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000016_overhead.png",
+      "front": "frames\\frame_000016_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000017_overhead.png",
+      "front": "frames\\frame_000017_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000018_overhead.png",
+      "front": "frames\\frame_000018_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000019_overhead.png",
+      "front": "frames\\frame_000019_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000020_overhead.png",
+      "front": "frames\\frame_000020_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000021_overhead.png",
+      "front": "frames\\frame_000021_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000022_overhead.png",
+      "front": "frames\\frame_000022_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000023_overhead.png",
+      "front": "frames\\frame_000023_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000024_overhead.png",
+      "front": "frames\\frame_000024_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000025_overhead.png",
+      "front": "frames\\frame_000025_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000026_overhead.png",
+      "front": "frames\\frame_000026_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000027_overhead.png",
+      "front": "frames\\frame_000027_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000028_overhead.png",
+      "front": "frames\\frame_000028_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000029_overhead.png",
+      "front": "frames\\frame_000029_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000030_overhead.png",
+      "front": "frames\\frame_000030_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000031_overhead.png",
+      "front": "frames\\frame_000031_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000032_overhead.png",
+      "front": "frames\\frame_000032_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000033_overhead.png",
+      "front": "frames\\frame_000033_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000034_overhead.png",
+      "front": "frames\\frame_000034_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000035_overhead.png",
+      "front": "frames\\frame_000035_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000036_overhead.png",
+      "front": "frames\\frame_000036_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000037_overhead.png",
+      "front": "frames\\frame_000037_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000038_overhead.png",
+      "front": "frames\\frame_000038_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000039_overhead.png",
+      "front": "frames\\frame_000039_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000040_overhead.png",
+      "front": "frames\\frame_000040_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000041_overhead.png",
+      "front": "frames\\frame_000041_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000042_overhead.png",
+      "front": "frames\\frame_000042_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000043_overhead.png",
+      "front": "frames\\frame_000043_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000044_overhead.png",
+      "front": "frames\\frame_000044_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000045_overhead.png",
+      "front": "frames\\frame_000045_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000046_overhead.png",
+      "front": "frames\\frame_000046_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000047_overhead.png",
+      "front": "frames\\frame_000047_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000048_overhead.png",
+      "front": "frames\\frame_000048_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000049_overhead.png",
+      "front": "frames\\frame_000049_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000050_overhead.png",
+      "front": "frames\\frame_000050_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000051_overhead.png",
+      "front": "frames\\frame_000051_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000052_overhead.png",
+      "front": "frames\\frame_000052_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000053_overhead.png",
+      "front": "frames\\frame_000053_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000054_overhead.png",
+      "front": "frames\\frame_000054_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000055_overhead.png",
+      "front": "frames\\frame_000055_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000056_overhead.png",
+      "front": "frames\\frame_000056_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000057_overhead.png",
+      "front": "frames\\frame_000057_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000058_overhead.png",
+      "front": "frames\\frame_000058_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000059_overhead.png",
+      "front": "frames\\frame_000059_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000060_overhead.png",
+      "front": "frames\\frame_000060_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000061_overhead.png",
+      "front": "frames\\frame_000061_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000062_overhead.png",
+      "front": "frames\\frame_000062_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000063_overhead.png",
+      "front": "frames\\frame_000063_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000064_overhead.png",
+      "front": "frames\\frame_000064_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000065_overhead.png",
+      "front": "frames\\frame_000065_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000066_overhead.png",
+      "front": "frames\\frame_000066_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000067_overhead.png",
+      "front": "frames\\frame_000067_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000068_overhead.png",
+      "front": "frames\\frame_000068_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000069_overhead.png",
+      "front": "frames\\frame_000069_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000070_overhead.png",
+      "front": "frames\\frame_000070_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000071_overhead.png",
+      "front": "frames\\frame_000071_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000072_overhead.png",
+      "front": "frames\\frame_000072_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000073_overhead.png",
+      "front": "frames\\frame_000073_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000074_overhead.png",
+      "front": "frames\\frame_000074_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000075_overhead.png",
+      "front": "frames\\frame_000075_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000076_overhead.png",
+      "front": "frames\\frame_000076_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000077_overhead.png",
+      "front": "frames\\frame_000077_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000078_overhead.png",
+      "front": "frames\\frame_000078_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000079_overhead.png",
+      "front": "frames\\frame_000079_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000080_overhead.png",
+      "front": "frames\\frame_000080_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000081_overhead.png",
+      "front": "frames\\frame_000081_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000082_overhead.png",
+      "front": "frames\\frame_000082_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000083_overhead.png",
+      "front": "frames\\frame_000083_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000084_overhead.png",
+      "front": "frames\\frame_000084_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000085_overhead.png",
+      "front": "frames\\frame_000085_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000086_overhead.png",
+      "front": "frames\\frame_000086_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000087_overhead.png",
+      "front": "frames\\frame_000087_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000088_overhead.png",
+      "front": "frames\\frame_000088_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000089_overhead.png",
+      "front": "frames\\frame_000089_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000090_overhead.png",
+      "front": "frames\\frame_000090_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000091_overhead.png",
+      "front": "frames\\frame_000091_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000092_overhead.png",
+      "front": "frames\\frame_000092_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000093_overhead.png",
+      "front": "frames\\frame_000093_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000094_overhead.png",
+      "front": "frames\\frame_000094_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000095_overhead.png",
+      "front": "frames\\frame_000095_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000096_overhead.png",
+      "front": "frames\\frame_000096_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000097_overhead.png",
+      "front": "frames\\frame_000097_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000098_overhead.png",
+      "front": "frames\\frame_000098_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000099_overhead.png",
+      "front": "frames\\frame_000099_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000100_overhead.png",
+      "front": "frames\\frame_000100_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000101_overhead.png",
+      "front": "frames\\frame_000101_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000102_overhead.png",
+      "front": "frames\\frame_000102_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000103_overhead.png",
+      "front": "frames\\frame_000103_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000104_overhead.png",
+      "front": "frames\\frame_000104_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000105_overhead.png",
+      "front": "frames\\frame_000105_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000106_overhead.png",
+      "front": "frames\\frame_000106_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000107_overhead.png",
+      "front": "frames\\frame_000107_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000108_overhead.png",
+      "front": "frames\\frame_000108_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000109_overhead.png",
+      "front": "frames\\frame_000109_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000110_overhead.png",
+      "front": "frames\\frame_000110_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000111_overhead.png",
+      "front": "frames\\frame_000111_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000112_overhead.png",
+      "front": "frames\\frame_000112_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000113_overhead.png",
+      "front": "frames\\frame_000113_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000114_overhead.png",
+      "front": "frames\\frame_000114_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000115_overhead.png",
+      "front": "frames\\frame_000115_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000116_overhead.png",
+      "front": "frames\\frame_000116_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000117_overhead.png",
+      "front": "frames\\frame_000117_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000118_overhead.png",
+      "front": "frames\\frame_000118_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000119_overhead.png",
+      "front": "frames\\frame_000119_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000120_overhead.png",
+      "front": "frames\\frame_000120_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000121_overhead.png",
+      "front": "frames\\frame_000121_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000122_overhead.png",
+      "front": "frames\\frame_000122_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000123_overhead.png",
+      "front": "frames\\frame_000123_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000124_overhead.png",
+      "front": "frames\\frame_000124_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000125_overhead.png",
+      "front": "frames\\frame_000125_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000126_overhead.png",
+      "front": "frames\\frame_000126_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000127_overhead.png",
+      "front": "frames\\frame_000127_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000128_overhead.png",
+      "front": "frames\\frame_000128_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000129_overhead.png",
+      "front": "frames\\frame_000129_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000130_overhead.png",
+      "front": "frames\\frame_000130_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000131_overhead.png",
+      "front": "frames\\frame_000131_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000132_overhead.png",
+      "front": "frames\\frame_000132_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000133_overhead.png",
+      "front": "frames\\frame_000133_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000134_overhead.png",
+      "front": "frames\\frame_000134_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000135_overhead.png",
+      "front": "frames\\frame_000135_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000136_overhead.png",
+      "front": "frames\\frame_000136_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000137_overhead.png",
+      "front": "frames\\frame_000137_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000138_overhead.png",
+      "front": "frames\\frame_000138_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000139_overhead.png",
+      "front": "frames\\frame_000139_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000140_overhead.png",
+      "front": "frames\\frame_000140_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000141_overhead.png",
+      "front": "frames\\frame_000141_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000142_overhead.png",
+      "front": "frames\\frame_000142_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000143_overhead.png",
+      "front": "frames\\frame_000143_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000144_overhead.png",
+      "front": "frames\\frame_000144_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000145_overhead.png",
+      "front": "frames\\frame_000145_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000146_overhead.png",
+      "front": "frames\\frame_000146_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000147_overhead.png",
+      "front": "frames\\frame_000147_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000148_overhead.png",
+      "front": "frames\\frame_000148_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000149_overhead.png",
+      "front": "frames\\frame_000149_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000150_overhead.png",
+      "front": "frames\\frame_000150_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000151_overhead.png",
+      "front": "frames\\frame_000151_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000152_overhead.png",
+      "front": "frames\\frame_000152_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000153_overhead.png",
+      "front": "frames\\frame_000153_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000154_overhead.png",
+      "front": "frames\\frame_000154_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000155_overhead.png",
+      "front": "frames\\frame_000155_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000156_overhead.png",
+      "front": "frames\\frame_000156_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000157_overhead.png",
+      "front": "frames\\frame_000157_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000158_overhead.png",
+      "front": "frames\\frame_000158_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000159_overhead.png",
+      "front": "frames\\frame_000159_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000160_overhead.png",
+      "front": "frames\\frame_000160_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000161_overhead.png",
+      "front": "frames\\frame_000161_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000162_overhead.png",
+      "front": "frames\\frame_000162_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000163_overhead.png",
+      "front": "frames\\frame_000163_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000164_overhead.png",
+      "front": "frames\\frame_000164_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000165_overhead.png",
+      "front": "frames\\frame_000165_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000166_overhead.png",
+      "front": "frames\\frame_000166_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000167_overhead.png",
+      "front": "frames\\frame_000167_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000168_overhead.png",
+      "front": "frames\\frame_000168_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000169_overhead.png",
+      "front": "frames\\frame_000169_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000170_overhead.png",
+      "front": "frames\\frame_000170_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000171_overhead.png",
+      "front": "frames\\frame_000171_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000172_overhead.png",
+      "front": "frames\\frame_000172_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000173_overhead.png",
+      "front": "frames\\frame_000173_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000174_overhead.png",
+      "front": "frames\\frame_000174_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000175_overhead.png",
+      "front": "frames\\frame_000175_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000176_overhead.png",
+      "front": "frames\\frame_000176_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000177_overhead.png",
+      "front": "frames\\frame_000177_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000178_overhead.png",
+      "front": "frames\\frame_000178_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000179_overhead.png",
+      "front": "frames\\frame_000179_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000180_overhead.png",
+      "front": "frames\\frame_000180_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000181_overhead.png",
+      "front": "frames\\frame_000181_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000182_overhead.png",
+      "front": "frames\\frame_000182_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000183_overhead.png",
+      "front": "frames\\frame_000183_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000184_overhead.png",
+      "front": "frames\\frame_000184_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000185_overhead.png",
+      "front": "frames\\frame_000185_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000186_overhead.png",
+      "front": "frames\\frame_000186_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000187_overhead.png",
+      "front": "frames\\frame_000187_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000188_overhead.png",
+      "front": "frames\\frame_000188_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000189_overhead.png",
+      "front": "frames\\frame_000189_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000190_overhead.png",
+      "front": "frames\\frame_000190_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000191_overhead.png",
+      "front": "frames\\frame_000191_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000192_overhead.png",
+      "front": "frames\\frame_000192_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000193_overhead.png",
+      "front": "frames\\frame_000193_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000194_overhead.png",
+      "front": "frames\\frame_000194_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000195_overhead.png",
+      "front": "frames\\frame_000195_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000196_overhead.png",
+      "front": "frames\\frame_000196_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000197_overhead.png",
+      "front": "frames\\frame_000197_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000198_overhead.png",
+      "front": "frames\\frame_000198_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000199_overhead.png",
+      "front": "frames\\frame_000199_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000200_overhead.png",
+      "front": "frames\\frame_000200_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000201_overhead.png",
+      "front": "frames\\frame_000201_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000202_overhead.png",
+      "front": "frames\\frame_000202_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000203_overhead.png",
+      "front": "frames\\frame_000203_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000204_overhead.png",
+      "front": "frames\\frame_000204_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000205_overhead.png",
+      "front": "frames\\frame_000205_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000206_overhead.png",
+      "front": "frames\\frame_000206_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000207_overhead.png",
+      "front": "frames\\frame_000207_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000208_overhead.png",
+      "front": "frames\\frame_000208_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000209_overhead.png",
+      "front": "frames\\frame_000209_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000210_overhead.png",
+      "front": "frames\\frame_000210_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000211_overhead.png",
+      "front": "frames\\frame_000211_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000212_overhead.png",
+      "front": "frames\\frame_000212_front.png"
+    },
+    {
+      "overhead": "frames\\frame_000213_overhead.png",
+      "front": "frames\\frame_000213_front.png"
+    }
+  ],
+  "camera_names": [
+    "overhead",
+    "front"
+  ],
+  "state_shape": [
+    214,
+    67
+  ],
+  "action_shape": [
+    214,
+    15
+  ]
+}

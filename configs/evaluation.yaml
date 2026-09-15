@@ -1,0 +1,8 @@
+evaluation:
+  output_dir: "outputs/evaluation"
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  episodes: 10
+  max_steps: 500
+  success_threshold: 0.8
+  mode: "medium"
+  modes: [easy, medium, hard]

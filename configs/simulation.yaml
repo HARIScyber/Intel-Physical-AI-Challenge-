@@ -1,0 +1,36 @@
+simulation:
+  model: ""
+  timestep: 0.002
+  control_frequency: 20
+  duration_seconds: 5.0
+  render: true
+  seed: 7
+  camera: "overhead"
+robots:
+  count: 2
+  joint_count: 6
+objects:
+  table_size: [1.6, 1.0, 0.75]
+randomization:
+  enabled: true
+  mode: "medium"
+  friction_range: [0.6, 1.2]
+  mass_range: [0.8, 1.2]
+  light_intensity_range: [0.75, 1.25]
+  camera_position_range: 0.04
+  size_range: [0.9, 1.1]
+  color_jitter: 0.08
+  control_noise: 0.002
+  table_scale_range: [0.95, 1.05]
+perception:
+  camera: "overhead"
+  width: 320
+  height: 240
+  backend: "ground_truth"
+  output_dir: "outputs/perception"
+  object_names: [plate, cup, spoon, fork, napkin, bowl]
+language:
+  backend: "rules"
+  model_name: ""
+  local_files_only: true
+  max_new_tokens: 256

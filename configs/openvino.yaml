@@ -1,0 +1,5 @@
+openvino:
+  model_dir: "checkpoints/openvino"
+  device: "CPU"
+  precision: "FP16"
+  benchmark_iterations: 100

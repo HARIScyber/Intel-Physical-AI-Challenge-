@@ -1,0 +1,109 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Setup Check",
+      "type": "shell",
+      "command": "python -c \"import sys; print('Python:', sys.version); import lerobot; print('LeRobot:', lerobot.__version__ if hasattr(lerobot, '__version__') else 'imported')\"",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Check Python environment and LeRobot installation"
+    },
+    {
+      "label": "Run MuJoCo",
+      "type": "shell",
+      "command": "python scripts/run_simulation.py",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Run simulation with MuJoCo physics"
+    },
+    {
+      "label": "Run Baseline",
+      "type": "shell",
+      "command": "python scripts/run_demo.py",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Run baseline simulation"
+    },
+    {
+      "label": "Generate Dataset",
+      "type": "shell",
+      "command": "python project_datasets/generate_dataset.py",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Generate dataset from collected data"
+    },
+    {
+      "label": "Validate Dataset",
+      "type": "shell",
+      "command": "python project_datasets/validate_dataset.py",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Validate dataset structure and content"
+    },
+    {
+      "label": "Train Policy",
+      "type": "shell",
+      "command": "python scripts/train.py",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Train VLA policy using collected data"
+    },
+    {
+      "label": "Run VLA",
+      "type": "shell",
+      "command": "python scripts/run_vla_inference.py",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Run VLA policy inference"
+    },
+    {
+      "label": "Run Evaluation",
+      "type": "shell",
+      "command": "python scripts/evaluate.py",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Evaluate policy performance"
+    },
+    {
+      "label": "Run 10 Seeds",
+      "type": "shell",
+      "command": "python scripts/run_simulation.py --mode medium --seeds 0,1,2,3,4,5,6,7,8,9 --episodes 10",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Run simulation across 10 different seeds"
+    },
+    {
+      "label": "OpenVINO Convert",
+      "type": "shell",
+      "command": "python optimization/convert_openvino.py lerobot/smolvla_base --force",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Convert model to OpenVINO format"
+    },
+    {
+      "label": "OpenVINO Benchmark",
+      "type": "shell",
+      "command": "python optimization/intel_benchmark.py lerobot/smolvla_base --iterations 3 --warmup 1 --task-episodes 1 --task-steps 1",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Benchmark OpenVINO model performance"
+    },
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": "python scripts/run_tests.py tests/unit/",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Run unit tests"
+    },
+    {
+      "label": "Run Full Pipeline",
+      "type": "shell",
+      "command": "python scripts/full_pipeline.py --checkpoint lerobot/smolvla_base --output-dir outputs/benchmarks --device cpu --iterations 3 --warmup 1 --task-episodes 1 --task-steps 1",
+      "problemMatcher": [],
+      "group": "build",
+      "detail": "Run complete pipeline from training to evaluation"
+    }
+  ]
+}

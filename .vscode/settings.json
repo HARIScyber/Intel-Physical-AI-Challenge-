@@ -1,0 +1,209 @@
+{
+  "python.pythonPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "88"
+  ],
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": [
+    "--max-line-length=88",
+    "--ignore=missing-docstring,too-many-arguments,too-many-branches,too-many-instance-attributes,too-many-locals,too-many-public-methods"
+  ],
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.venv": true,
+    "**/.hg": true,
+    "**/.git": true,
+    "**/.git-rewrite": true,
+    "**/.DS_Store": true,
+    "**/*.orig": true,
+    "**/.DS_Store?": true,
+    "**/Thumbs.db": true,
+    "**/*.lnk": true,
+    "**/.kilo/": true,
+    "**/.kilocode/": true,
+    "**/.opencode/": true,
+    "**/.git/": true,
+    "**/.gitignore": true,
+    "**/.gitmodules": true,
+    "**/.gitattributes": true,
+    "**/.gitmodules": true,
+    "**/.gitattributes": true,
+    "**/.git/info/exclude": true,
+    "**/.git/info/exclude": true,
+    "**/.git/info/exclude": true,
+    "**/.git/info/exclude": true,
+    "**/.git/info/exclude": true
+  },
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true
+  },
+  "files.watcherExclude": {
+    "**/__pycache__": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true
+  },
+  "debug": {
+    "console": "internalConsole",
+    "consoleOptions": {
+      "justMyCode": false
+    }
+  },
+  "jupyter.notebookFilePath": "${workspaceFolder}/notebooks",
+  "jupyter.remotePreview": {
+    "domain": "localhost",
+    "port": 8888
+  },
+  "python.testing.pytestArgs": [
+    "--tb=short",
+    "-q"
+  ],
+  "python.testing.pyTestExplorerEnabled": true,
+  "python.testing.unittestEnabled": true,
+  "python.testing.nosetestsEnabled": false,
+  "python.linting.pylintArgs": [
+    "--max-line-length=88",
+    "--ignore=missing-docstring,too-many-arguments,too-many-branches,too-many-instance-attributes,too-many-locals,too-many-public-methods"
+  ],
+  "python.linting.pylintEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "88"
+  ],
+  "python.formatting.autopep8Args": [
+    "--max-line-length=88"
+  ],
+  "python.formatting.yapfArgs": [
+    "--style=pep8",
+    "--max-line-length=88"
+  ],
+  "python.testing.pytestArgs": [
+    "--tb=short",
+    "-q"
+  ],
+  "python.testing.pyTestExplorerEnabled": true,
+  "python.testing.unittestEnabled": true,
+  "python.testing.nosetestsEnabled": false,
+  "files.trimTrailingWhitespaceOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.tabCompletion": "on",
+  "editor.suggestCommandSuggestions": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.wordBasedSuggestions": "matchingDocuments",
+  "editor.parameterHints.enabled": true,
+  "editor.mouseWheelZoom": true,
+  "editor.mouseWheelScrollSpeed": 100,
+  "editor.scrollPerPage": 10,
+  "editor.minimap.enabled": true,
+  "editor.minimap.renderCharacters": true,
+  "editor.minimap.maxColumn": 100,
+  "editor.minimap.showSlider": "always",
+  "editor.renderLineNumbers": "on",
+  "editor.lineNumbers": "on",
+  "editor.renderControlCharacters": false,
+  "editor.renderFinalNewline": "off",
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 88,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.indentation": true,
+  "editor.guides.bracketPairs": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.eagerValidation": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true
+  },
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true
+  },
+  "python.testing.pytestArgs": [
+    "--tb=short",
+    "-q"
+  ],
+  "python.testing.pyTestExplorerEnabled": true,
+  "python.testing.unittestEnabled": true,
+  "python.testing.nosetestsEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": [
+    "--max-line-length=88",
+    "--ignore=missing-docstring,too-many-arguments,too-many-branches,too-many-instance-attributes,too-many-locals,too-many-public-methods"
+  ],
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "88"
+  ],
+  "python.formatting.autopep8Args": [
+    "--max-line-length=88"
+  ],
+  "python.formatting.yapfArgs": [
+    "--style=pep8",
+    "--max-line-length=88"
+  ],
+  "python.testing.pytestArgs": [
+    "--tb=short",
+    "-q"
+  ],
+  "python.testing.pyTestExplorerEnabled": true,
+  "python.testing.unittestEnabled": true,
+  "python.testing.nosetestsEnabled": false,
+  "files.trimTrailingWhitespaceOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.tabCompletion": "on",
+  "editor.suggestCommandSuggestions": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.wordBasedSuggestions": true,
+  "editor.parameterHints.enabled": true,
+  "editor.mouseWheelZoom": true,
+  "editor.mouseWheelScrollSpeed": 100,
+  "editor.scrollPerPage": 10,
+  "editor.minimap.enabled": true,
+  "editor.minimap.renderCharacters": true,
+  "editor.minimap.maxColumn": 100,
+  "editor.minimap.showSlider": "always",
+  "editor.renderLineNumbers": "on",
+  "editor.lineNumbers": "on",
+  "editor.renderControlCharacters": false,
+  "editor.renderFinalNewline": false,
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 88,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.indentation": true,
+  "editor.guides.bracketPairs": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.eagerValidation": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true
+}
