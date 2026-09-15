@@ -128,7 +128,7 @@ class ArmController:
                 mujoco.mju_mat2Quat(current_quaternion, self.data.site_xmat[site_id])
                 orientation_error = np.zeros(3, dtype=np.float64)
                 mujoco.mju_subQuat(orientation_error, target_quaternion, current_quaternion)
-                error = np.concatenate((position_error, 0.0 * orientation_error))
+                error = np.concatenate((position_error, orientation_error))
                 if np.linalg.norm(error) < 1e-4:
                     break
                 jacobian_position = np.zeros((3, self.model.nv), dtype=np.float64)
@@ -200,17 +200,45 @@ class ArmController:
         mujoco.mj_step(self.model, self.data, nstep=physics_steps)
 
     def _has_arm_collision(self) -> bool:
-        """Inspect contacts involving any articulated arm body."""
+        """Inspect contacts involving any articulated arm body, excluding safe manipulation contacts."""
         arm_body_ids = {
             body_id for body_id in range(self.model.nbody)
             if self.model.body(body_id).name.startswith(("so101_", "arm_a_", "arm_b_"))
+        }
+        gripper_body_names = {
+            "arm_a_gripper_left", "arm_a_gripper_right",
+            "arm_b_gripper_left", "arm_b_gripper_right"
+        }
+        gripper_body_ids = {
+            body_id for body_id in range(self.model.nbody)
+            if self.model.body(body_id).name in gripper_body_names
+        }
+        object_body_names = {
+            "plate", "cup", "spoon", "fork", "napkin", "bowl"
+        }
+        object_body_ids = {
+            body_id for body_id in range(self.model.nbody)
+            if self.model.body(body_id).name in object_body_names
         }
         for index in range(self.data.ncon):
             contact = self.data.contact[index]
             body_a = self.model.geom_bodyid[contact.geom1]
             body_b = self.model.geom_bodyid[contact.geom2]
-            if body_a in arm_body_ids or body_b in arm_body_ids:
-                return True
+            
+            arm_involved = body_a in arm_body_ids or body_b in arm_body_ids
+            if not arm_involved:
+                continue
+            
+            gripper_a = body_a in gripper_body_ids
+            gripper_b = body_b in gripper_body_ids
+            object_a = body_a in object_body_ids
+            object_b = body_b in object_body_ids
+            
+            is_safe_manipulation = (gripper_a and object_b) or (gripper_b and object_a)
+            if is_safe_manipulation:
+                continue
+            
+            return True
         return False
 
     def _read_joint_limits(self) -> np.ndarray:

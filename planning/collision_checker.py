@@ -32,11 +32,31 @@ class CollisionChecker:
             mujoco.mj_forward(self.model, self.data)
 
     def current_collision(self) -> bool:
-        """Read current contacts involving arm bodies."""
+        """Read current contacts involving arm bodies, excluding safe manipulation contacts."""
         if self.model is None or self.data is None:
             return False
         arm_ids = {i for i in range(self.model.nbody) if self.model.body(i).name.startswith(("so101_", "arm_a_", "arm_b_"))}
-        return any(self.model.geom_bodyid[c.geom1] in arm_ids or self.model.geom_bodyid[c.geom2] in arm_ids for c in self.data.contact[: self.data.ncon])
+        gripper_body_names = {"arm_a_gripper_left", "arm_a_gripper_right", "arm_b_gripper_left", "arm_b_gripper_right"}
+        gripper_ids = {i for i in range(self.model.nbody) if self.model.body(i).name in gripper_body_names}
+        object_body_names = {"plate", "cup", "spoon", "fork", "napkin", "bowl"}
+        object_ids = {i for i in range(self.model.nbody) if self.model.body(i).name in object_body_names}
+        
+        for c in self.data.contact[: self.data.ncon]:
+            geom1_body = self.model.geom_bodyid[c.geom1]
+            geom2_body = self.model.geom_bodyid[c.geom2]
+            arm_involved = geom1_body in arm_ids or geom2_body in arm_ids
+            if not arm_involved:
+                continue
+            
+            gripper_involved = geom1_body in gripper_ids or geom2_body in gripper_ids
+            object_involved = geom1_body in object_ids or geom2_body in object_ids
+            
+            is_safe_manipulation = gripper_involved and object_involved
+            if is_safe_manipulation:
+                continue
+            
+            return True
+        return False
 
 def is_collision_free(trajectory: Sequence[Sequence[float]], config: dict | None = None) -> bool:
     """Backward-compatible structural collision check."""

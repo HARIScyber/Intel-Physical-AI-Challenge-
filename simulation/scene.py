@@ -61,26 +61,26 @@ def build_scene_xml(config: dict[str, Any]) -> str:
         <geom name="drawer_handle" type="box" pos="0 -0.30 0" size="0.13 0.025 0.025" rgba="0.12 0.12 0.12 1"/>
       </body>
     </body>
-    <body name="plate" pos="-0.25 0 0.84">
+    <body name="plate" pos="-0.25 0 0.768">
       <joint name="plate_free" type="free"/>
       <geom name="plate_geom" type="cylinder" size="0.16 0.018" mass="0.18" rgba="0.92 0.92 0.86 1"/>
     </body>
-    <body name="cup" pos="0.28 0.10 0.90">
+    <body name="cup" pos="0.28 0.10 0.825">
       <joint name="cup_free" type="free"/>
       <geom name="cup_geom" type="cylinder" size="0.055 0.075" mass="0.12" rgba="0.12 0.38 0.80 1"/>
     </body>
-    <body name="spoon" pos="0.10 -0.18 0.86">
+    <body name="spoon" pos="-0.20 -0.18 0.762">
       <joint name="spoon_free" type="free"/>
       <geom name="spoon_handle" type="capsule" fromto="0 -0.09 0 0 0.09 0" size="0.012" mass="0.025" rgba="0.72 0.74 0.78 1"/>
       <geom name="spoon_bowl" type="ellipsoid" pos="0 0.105 0" size="0.035 0.05 0.008" mass="0.02" rgba="0.72 0.74 0.78 1"/>
     </body>
-    <body name="fork" pos="-0.05 -0.20 0.86">
+    <body name="fork" pos="-0.25 -0.20 0.762">
       <joint name="fork_free" type="free"/>
       <geom name="fork_handle" type="capsule" fromto="0 -0.10 0 0 0.10 0" size="0.012" mass="0.025" rgba="0.72 0.74 0.78 1"/>
       <geom name="fork_head" type="box" pos="0 0.115 0" size="0.035 0.035 0.008" mass="0.02" rgba="0.72 0.74 0.78 1"/>
     </body>
-    <body name="napkin" pos="0.42 -0.18 0.84"><joint name="napkin_free" type="free"/><geom type="box" size="0.12 0.09 0.006" mass="0.01" rgba="0.85 0.18 0.16 1"/></body>
-    <body name="bowl" pos="0.45 0.18 0.88"><joint name="bowl_free" type="free"/><geom type="cylinder" size="0.12 0.045" mass="0.14" rgba="0.88 0.68 0.25 1"/></body>
+    <body name="napkin" pos="-0.30 -0.18 0.756"><joint name="napkin_free" type="free"/><geom type="box" size="0.12 0.09 0.006" mass="0.01" rgba="0.85 0.18 0.16 1"/></body>
+    <body name="bowl" pos="0.45 0.18 0.795"><joint name="bowl_free" type="free"/><geom type="cylinder" size="0.12 0.045" mass="0.14" rgba="0.88 0.68 0.25 1"/></body>
     { _arm_xml("a", -0.92, 0.05, "0.15 0.55 0.42 1") }
     { _arm_xml("b", 0.92, 0.05, "0.75 0.28 0.18 1") }
   </worldbody>

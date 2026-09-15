@@ -159,25 +159,65 @@ class BimanualMujocoEnv:
         return {key: value for key, value in observation.items() if key != "camera_images"}
 
     def check_collision(self) -> bool:
-        """Return true if an arm contacts an object, table, drawer, or floor."""
+        """Return true if an arm contacts an object, table, drawer, or floor in an unsafe way.
+        
+        Gripper-to-object contacts during manipulation are allowed.
+        """
         arm_body_ids = {
             body_id for body_id in range(self.model.nbody)
             if self.model.body(body_id).name.startswith(("so101_", "arm_a_", "arm_b_"))
         }
+        # Gripper body names that can safely contact objects during grasping
+        gripper_body_names = {
+            "arm_a_gripper_left", "arm_a_gripper_right",
+            "arm_b_gripper_left", "arm_b_gripper_right"
+        }
+        gripper_body_ids = {
+            body_id for body_id in range(self.model.nbody)
+            if self.model.body(body_id).name in gripper_body_names
+        }
+        # Object body names that are allowed to contact grippers
+        object_body_names = {
+            "plate", "cup", "spoon", "fork", "napkin", "bowl"
+        }
+        object_body_ids = {
+            body_id for body_id in range(self.model.nbody)
+            if self.model.body(body_id).name in object_body_names
+        }
+        
         for contact_index in range(self.data.ncon):
             contact = self.data.contact[contact_index]
             body_a = self.model.geom_bodyid[contact.geom1]
             body_b = self.model.geom_bodyid[contact.geom2]
-            if body_a in arm_body_ids or body_b in arm_body_ids:
-                return True
+            
+            arm_involved = body_a in arm_body_ids or body_b in arm_body_ids
+            if not arm_involved:
+                continue
+            
+            # Check if it's a safe gripper-object contact
+            gripper_a = body_a in gripper_body_ids
+            gripper_b = body_b in gripper_body_ids
+            object_a = body_a in object_body_ids
+            object_b = body_b in object_body_ids
+            
+            is_safe_manipulation = (gripper_a and object_b) or (gripper_b and object_a)
+            if is_safe_manipulation:
+                continue
+            
+            # All other arm contacts are unsafe
+            return True
         return False
 
     def is_task_complete(self) -> bool:
-        """Check the foundation task condition: drawer open and objects on table."""
+        """Check the foundation task condition: drawer open and required objects on table."""
         if not self._drawer_open():
             return False
-        for name in ("plate", "cup", "spoon", "fork", "napkin", "bowl"):
-            body_id = self.model.body(name).id
+        required_objects = tuple(self.config.simulation.get("perception", {}).get("object_names", ("plate", "cup", "spoon", "fork")))
+        for name in required_objects:
+            try:
+                body_id = self.model.body(name).id
+            except (KeyError, ValueError):
+                continue
             position = self.data.xpos[body_id]
             if not (0.73 <= position[2] <= 1.4 and abs(position[0]) <= 0.85 and abs(position[1]) <= 0.55):
                 return False
