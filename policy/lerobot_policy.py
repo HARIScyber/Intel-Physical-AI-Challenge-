@@ -91,6 +91,10 @@ class LeRobotPolicy(BasePolicy):
         """Preprocess and predict using action sequence."""
         return self.predict(observation, instruction)
 
+    def predict_with_action_sequence(self, observation: Any, action_sequence: Any, instruction: str | None = None) -> Any:
+        """Preprocess and predict using action sequence."""
+        return self.predict(observation, instruction)
+
 
 def _to_lerobot_batch(observation: dict[str, Any], instruction: str) -> dict[str, Any]:
     """Map project observation keys to standard LeRobot observation keys."""

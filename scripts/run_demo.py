@@ -33,6 +33,11 @@ from typing import Any
 
 import numpy as np
 
+try:
+    import mujoco
+except ImportError:
+    mujoco = None
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -45,6 +50,8 @@ from policy import ScriptedPolicy
 from policy.base_policy import BaselineMetrics, ScriptedPolicy, OBJECT_ARM_MAP, TABLE_TOP, OBJECT_HALF_HEIGHTS, diagnose_scene
 from policy.vla_policy import LeRobotVLA as VLAPolicy, VLAUnavailableError, VLAStates
 from simulation import BimanualMujocoEnv
+from evaluation.task_verifier import TaskVerifier, TaskVerificationResult
+from planning.manipulation_state import create_state_machine, ManipulationState, ManipulationStateMachine
 
 from json_helper import to_jsonable, safe_json_dumps
 
@@ -146,6 +153,13 @@ def main() -> int:
         held_objects: dict[str, str] = {"arm_a": None, "arm_b": None}
         pending_transports: dict[str, str] = {}
 
+        # Initialize manipulation state machine
+        manipulation_sm = create_state_machine(task_command, max_retries=2)
+        # Assign arms based on OBJECT_ARM_MAP
+        for obj_name in manipulation_sm.objects:
+            arm = OBJECT_ARM_MAP.get(obj_name, "a")
+            manipulation_sm.set_arm(obj_name, arm)
+
         LOGGER.info("Phase 9: Executing dual-arm actions")
         steps_executed = 0
         i = 0
@@ -157,20 +171,37 @@ def main() -> int:
 
             LOGGER.info("Step %d/%d: Executing %s", i + 1, len(sequence.actions), action.name)
 
-            if action.name in {"transport"}:
-                expected_object = action.objects[0] if action.objects else ""
-                arm_label = _object_assigned_to_arm(expected_object)
-                expected_arm = f"arm_{arm_label}"
-                if held_objects.get(expected_arm) != expected_object:
-                    LOGGER.warning("Skipping transport for %s: not held by %s (held=%s)", expected_object, expected_arm, held_objects.get(expected_arm))
+            # Use manipulation state machine to check preconditions
+            target = action.objects[0] if action.objects else ""
+            if action.name == "transport" and target:
+                if not manipulation_sm.can_transport(target):
+                    LOGGER.warning("Skipping transport for %s: not in GRASPED state (state=%s)",
+                                   target, manipulation_sm.get_state(target))
                     trajectory.append({
                         "step": steps_executed,
                         "action": action.name,
                         "policy": args.policy,
                         "status": "SKIPPED",
                         "reason": "object_not_grasped",
-                        "object": expected_object,
-                        "held_by": held_objects.get(expected_arm),
+                        "object": target,
+                        "current_state": manipulation_sm.get_state(target).value,
+                        "timestamp": time.perf_counter() - started,
+                    })
+                    i += 1
+                    continue
+
+            if action.name in {"release", "place", "preplace"} and target:
+                if not manipulation_sm.can_release(target):
+                    LOGGER.warning("Skipping release for %s: not in TRANSPORTING/PREPLACING state (state=%s)",
+                                   target, manipulation_sm.get_state(target))
+                    trajectory.append({
+                        "step": steps_executed,
+                        "action": action.name,
+                        "policy": args.policy,
+                        "status": "SKIPPED",
+                        "reason": "object_not_transporting",
+                        "object": target,
+                        "current_state": manipulation_sm.get_state(target).value,
                         "timestamp": time.perf_counter() - started,
                     })
                     i += 1
@@ -179,7 +210,7 @@ def main() -> int:
             try:
                 if args.policy == "vla" and policy_fallback:
                     LOGGER.warning("Using scripted fallback for action %s", action.name)
-                    command_action = policy.predict(last_scene)
+                    command_action = policy.predict(last_scene, instruction)
                 elif args.policy == "vla" and not policy.is_ready():
                     LOGGER.error("VLA policy not ready, skipping action %s", action.name)
                     failed_actions += 1
@@ -194,7 +225,7 @@ def main() -> int:
                     i += 1
                     continue
                 else:
-                    command_action = policy.predict(last_scene)
+                    command_action = policy.predict(last_scene, instruction)
 
                 if command_action is None:
                     LOGGER.warning("Policy returned None for action %s, skipping", action.name)
@@ -205,6 +236,25 @@ def main() -> int:
                         "policy": args.policy,
                         "status": "SKIPPED",
                         "reason": "policy_returned_none",
+                        "timestamp": time.perf_counter() - started,
+                    })
+                    i += 1
+                    continue
+
+                # Check for IK failures
+                if command_action.get("ik_failed"):
+                    LOGGER.warning("IK failed for action %s, marking object as FAILED", action.name)
+                    if target:
+                        manipulation_sm.record_failure(target, "IK did not converge")
+                        object_states[target] = "FAILED"
+                    failed_actions += 1
+                    trajectory.append({
+                        "step": steps_executed,
+                        "action": action.name,
+                        "policy": args.policy,
+                        "status": "IK_FAILED",
+                        "reason": "IK did not converge",
+                        "object": target,
                         "timestamp": time.perf_counter() - started,
                     })
                     i += 1
@@ -246,9 +296,10 @@ def main() -> int:
                         LOGGER.info("Episode ended at step %d", steps_executed)
                         break
 
-                if action.name in {"pick", "grasp", "retry_grasp"}:
+                if action.name in {"grasp", "retry_grasp"}:
                     target = action.objects[0] if action.objects else ""
-                    arm_label = _object_assigned_to_arm(target)
+                    arm_label = action.arm if action and action.arm else OBJECT_ARM_MAP.get(target, "a")
+                    arm_label = arm_label.lower() if isinstance(arm_label, str) else arm_label
                     gripper_key = "gripper_a" if arm_label == "a" else "gripper_b"
                     gripper_val = float(command_action.get(gripper_key, 0.0))
                     grasp_result = _verify_grasp(environment, target, arm_label)
@@ -256,6 +307,8 @@ def main() -> int:
                     if not grasp_result["success"]:
                         failed_grasps += 1
                         LOGGER.warning("Failed grasp for object: %s reason=%s", target, grasp_result["failure_reason"])
+                        manipulation_sm.record_failure(target, grasp_result["failure_reason"])
+                        object_states[target] = "FAILED"
                         trajectory.append({
                             "step": steps_executed,
                             "action": action.name,
@@ -271,47 +324,44 @@ def main() -> int:
                         held_objects[f"arm_{arm_label}"] = None
                     else:
                         successful_actions += 1
+                        manipulation_sm.transition(target, ManipulationState.GRASPED, "grasp_verified")
                         object_states[target] = "GRASPED"
                         if hasattr(policy, '_held_object'):
                             policy._held_object = target
                         held_objects[f"arm_{arm_label}"] = target
 
-                if action.name in {"place", "release"}:
+                if action.name == "verify_grasp":
                     target = action.objects[0] if action.objects else ""
-                    arm_label = _object_assigned_to_arm(target)
-                    if _object_on_table(environment, target):
-                        successful_placements += 1
-                        successful_actions += 1
-                        object_states[target] = "PLACED"
-                        if hasattr(policy, '_held_object'):
-                            policy._held_object = None
-                        held_objects[f"arm_{arm_label}"] = None
-                        LOGGER.info("Successful placement of %s", target)
-                        trajectory.append({
-                            "step": steps_executed,
-                            "action": action.name,
-                            "policy": args.policy,
-                            "status": "SUCCESS",
-                            "reason": "object_on_table",
-                            "object": target,
-                            "timestamp": time.perf_counter() - started,
-                        })
-                    else:
-                        failed_actions += 1
-                        LOGGER.warning("Failed placement of %s", target)
-                        trajectory.append({
-                            "step": steps_executed,
-                            "action": action.name,
-                            "policy": args.policy,
-                            "status": "FAILED",
-                            "reason": "object_not_on_table",
-                            "object": target,
-                            "timestamp": time.perf_counter() - started,
-                        })
+                    arm_label = action.arm if action and action.arm else OBJECT_ARM_MAP.get(target, "a")
+                    arm_label = arm_label.lower() if isinstance(arm_label, str) else arm_label
+                    if target and manipulation_sm.get_state(target) == ManipulationState.GRASPED:
+                        # Verify grasp is still valid
+                        grasp_result = _verify_grasp(environment, target, arm_label)
+                        if grasp_result["success"]:
+                            manipulation_sm.transition(target, ManipulationState.LIFTING, "grasp_verified")
+                            object_states[target] = "GRASPED"
+                        else:
+                            manipulation_sm.record_failure(target, "grasp_verification_failed")
+                            object_states[target] = "FAILED"
+
+                if action.name == "lift":
+                    target = action.objects[0] if action.objects else ""
+                    if target and manipulation_sm.get_state(target) == ManipulationState.LIFTING:
+                        # Verify object moved with gripper
+                        manipulation_sm.transition(target, ManipulationState.TRANSPORTING, "lifted")
+                        object_states[target] = "TRANSPORTING"
 
                 if action.name == "transport":
                     target = action.objects[0] if action.objects else ""
-                    object_states[target] = "TRANSPORTING"
+                    if target and manipulation_sm.get_state(target) == ManipulationState.TRANSPORTING:
+                        manipulation_sm.transition(target, ManipulationState.PREPLACING, "transported")
+                        object_states[target] = "TRANSPORTING"
+
+                if action.name == "preplace":
+                    target = action.objects[0] if action.objects else ""
+                    if target and manipulation_sm.get_state(target) == ManipulationState.PREPLACING:
+                        manipulation_sm.transition(target, ManipulationState.RELEASING, "preplaced")
+                        object_states[target] = "PREPLACING"
 
                 if action.name == "retry_grasp":
                     if hasattr(policy, 'metrics') and hasattr(policy.metrics, 'recovery_attempts'):
@@ -350,10 +400,16 @@ def main() -> int:
         metrics = dict(policy_metrics)
 
         LOGGER.info("Phase 11: Demonstrating error recovery")
-        demonstration_status = _verify_dinner_table_completion(environment, last_scene)
+        # Use authoritative TaskVerifier for final verification
+        # Get manipulation history from state machine
+        manipulation_history = manipulation_sm.get_history()
+        verifier = TaskVerifier(environment, task_command)
+        verification_result = verifier.verify(manipulation_history)
+        demonstration_status = verification_result.to_dict()
         bimanual_metrics = getattr(policy, 'metrics', BaselineMetrics())
         metrics.update({
             "demonstration_status": demonstration_status,
+            "task_verification": verification_result.to_dict(),
             "failed_grasps": failed_grasps,
             "successful_placements": successful_placements,
             "successful_actions": successful_actions,
@@ -373,6 +429,7 @@ def main() -> int:
             "vla_checkpoint_loaded": not policy_fallback,
             "object_states": object_states,
             "held_objects": held_objects,
+            "manipulation_history": {k: list(v) for k, v in manipulation_history.items()},
             "left_arm_actions": bimanual_metrics.left_arm_actions,
             "right_arm_actions": bimanual_metrics.right_arm_actions,
             "bimanual_actions": bimanual_metrics.bimanual_actions,
@@ -438,10 +495,7 @@ def _object_in_gripper(environment: BimanualMujocoEnv, object_name: str) -> bool
 
 
 def _verify_grasp(environment: BimanualMujocoEnv, object_name: str, arm_label: str) -> dict[str, Any]:
-    """Verify a grasp using real MuJoCo contact data.
-
-    Returns a structured GraspResult with contact and hold stability info.
-    """
+    """Verify a grasp using real MuJoCo contact data and physical stability."""
     result = {
         "success": False,
         "object": object_name,
@@ -458,13 +512,8 @@ def _verify_grasp(environment: BimanualMujocoEnv, object_name: str, arm_label: s
         return result
 
     object_body = environment.model.body(object_name).id
-    gripper_bodies = {
-        environment.model.body(f"arm_{arm_label}_gripper_{side}").id
-        for side in ("left", "right")
-    }
-
-    left_finger_body = environment.model.body(f"arm_{arm_label}_gripper_left").id
-    right_finger_body = environment.model.body(f"arm_{arm_label}_gripper_right").id
+    gripper_left = environment.model.body(f"arm_{arm_label}_gripper_left").id
+    gripper_right = environment.model.body(f"arm_{arm_label}_gripper_right").id
 
     left_contacts = 0
     right_contacts = 0
@@ -477,21 +526,47 @@ def _verify_grasp(environment: BimanualMujocoEnv, object_name: str, arm_label: s
 
         if body_a == object_body or body_b == object_body:
             object_contacts += 1
-            if body_a == left_finger_body or body_b == left_finger_body:
+            if body_a == gripper_left or body_b == gripper_left:
                 left_contacts += 1
-            if body_a == right_finger_body or body_b == right_finger_body:
+            if body_a == gripper_right or body_b == gripper_right:
                 right_contacts += 1
 
     result["contact_detected"] = object_contacts > 0
     result["left_finger_contact"] = left_contacts > 0
     result["right_finger_contact"] = right_contacts > 0
-    result["failure_reason"] = "NO_CONTACT" if not result["contact_detected"] else "GRASPED"
 
-    if result["contact_detected"]:
+    if not result["contact_detected"]:
+        result["failure_reason"] = "NO_CONTACT"
+        return result
+
+    pos_before = np.asarray(environment.data.xpos[object_body], dtype=np.float64).copy()
+    qpos_before = environment.data.qpos.copy()
+    qvel_before = environment.data.qvel.copy()
+
+    for _ in range(20):
+        environment.data.ctrl[:] = 0.0
+        environment.data.ctrl[environment.model.actuator("drawer_motor").id] = float(environment.data.joint("drawer_slide").qpos[0])
+        mujoco.mj_step(environment.model, environment.data, nstep=3)
+
+    pos_after = np.asarray(environment.data.xpos[object_body], dtype=np.float64)
+    pos_displacement = float(np.linalg.norm(pos_after - pos_before))
+
+    result["object_following"] = pos_displacement > 0.0005
+    result["hold_stable"] = pos_displacement < 0.05
+
+    if result["object_following"] and result["hold_stable"]:
         result["success"] = True
         result["failure_reason"] = "GRASPED"
+    elif result["object_following"] and not result["hold_stable"]:
+        result["failure_reason"] = "UNSTABLE_HOLD"
+    else:
+        result["failure_reason"] = "NO_STABLE_CONTACT"
 
     return result
+
+
+def _safe_copy(mapping: dict[str, Any]) -> dict[str, Any]:
+    return {k: (v.tolist() if hasattr(v, "tolist") else v) for k, v in mapping.items()}
 
 
 def _object_assigned_to_arm(object_name: str, default_arm: str = "a") -> str:
@@ -556,19 +631,6 @@ def _log_grasp_debug(logger: logging.Logger, environment: Any, object_name: str,
     )
 
 
-def _safe_copy(mapping: dict[str, Any]) -> dict[str, Any]:
-    return {k: (v.tolist() if hasattr(v, "tolist") else v) for k, v in mapping.items()}
-
-
-def _object_on_table(environment: BimanualMujocoEnv, object_name: str) -> bool:
-    """Check a live object pose against the configured table bounds."""
-    if not object_name:
-        return False
-    position = environment.data.xpos[environment.model.body(object_name).id]
-    half_height = OBJECT_HALF_HEIGHTS.get(object_name, 0.02)
-    return bool(TABLE_TOP - 0.05 <= position[2] <= TABLE_TOP + 0.5 and abs(position[0]) <= 0.85 and abs(position[1]) <= 0.55)
-
-
 def _recover_from_failure(
     environment: BimanualMujocoEnv,
     policy: Any,
@@ -580,61 +642,11 @@ def _recover_from_failure(
     LOGGER.warning("Attempting recovery at action index %d", action_index)
     try:
         environment.reset(seed=int(time.perf_counter() * 1000) % 10000)
-        if policy_type == "scripted":
-            policy.reset(None)
-        else:
-            policy.reset(None)
+        policy.reset(None)
         LOGGER.info("Recovery completed")
     except Exception as exc:
         LOGGER.error("Recovery failed: %s", exc)
         raise
-
-
-def _verify_dinner_table_completion(environment: BimanualMujocoEnv, scene_state: Any) -> dict[str, Any]:
-    """Verify that the dinner-table task is complete."""
-    verification = {
-        "dinner_set": False,
-        "utensils_placed": False,
-        "plate_placed": False,
-        "cup_placed": False,
-        "spoon_placed": False,
-        "fork_placed": False,
-        "robot_position_valid": False,
-        "collision_detected": False,
-    }
-
-    try:
-        required_objects = ["plate", "cup", "spoon", "fork"]
-        placed_objects = 0
-        for obj in required_objects:
-            try:
-                if _object_on_table(environment, obj):
-                    placed_objects += 1
-                    verification[f"{obj}_placed"] = True
-            except KeyError:
-                pass
-
-        verification["utensils_placed"] = verification["spoon_placed"] and verification["fork_placed"]
-        verification["dinner_set"] = placed_objects >= 4
-
-        try:
-            robot_pos = environment.data.qpos[0]
-            if hasattr(robot_pos, '__len__') and not isinstance(robot_pos, (str, bytes)):
-                robot_pos_list = list(robot_pos)
-            else:
-                robot_pos_list = [float(robot_pos)]
-            
-            verification["robot_position_valid"] = all(abs(float(x)) < 2.0 for x in robot_pos_list)
-        except (KeyError, IndexError, TypeError, ValueError) as exc:
-            LOGGER.error("Robot position verification error: %s", exc)
-            verification["robot_position_valid"] = False
-
-        verification["collision_detected"] = bool(scene_state.robot_state.get("collision", False))
-
-    except Exception as exc:
-        LOGGER.error("Verification error: %s", exc)
-
-    return verification
 
 
 if __name__ == "__main__":

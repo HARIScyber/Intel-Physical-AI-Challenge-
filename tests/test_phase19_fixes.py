@@ -185,19 +185,28 @@ class TestTaskSuccessVerification(unittest.TestCase):
         self.assertEqual(len(required), 4)
 
     def test_verify_dinner_table_completion_structure(self):
-        from scripts.run_demo import _verify_dinner_table_completion
-        mock_env = Mock()
-        mock_env.model.body.return_value.id = 0
-        mock_env.data.xpos = np.zeros((10, 3))
-        mock_env.data.xpos[0] = [0.0, 0.0, 0.84]
-        mock_scene = Mock()
-        mock_scene.robot_state = {"collision": False}
-        result = _verify_dinner_table_completion(mock_env, mock_scene)
-        self.assertIn("dinner_set", result)
-        self.assertIn("plate_placed", result)
-        self.assertIn("cup_placed", result)
-        self.assertIn("spoon_placed", result)
-        self.assertIn("fork_placed", result)
+        from evaluation.task_verifier import TaskVerifier, TaskVerificationResult
+        from simulation import BimanualMujocoEnv
+        from physical_ai.config import load_config
+        environment = BimanualMujocoEnv(load_config())
+        try:
+            environment.reset(seed=0)
+            task_command = None
+            verifier = TaskVerifier(environment, task_command)
+            result = verifier.verify()
+            self.assertIsInstance(result, TaskVerificationResult)
+            self.assertIn("success", result.to_dict())
+            self.assertIn("objects", result.to_dict())
+            for obj_name in result.objects:
+                self.assertIn("required", result.objects[obj_name].__dict__)
+                self.assertIn("located", result.objects[obj_name].__dict__)
+                self.assertIn("grasped", result.objects[obj_name].__dict__)
+                self.assertIn("transported", result.objects[obj_name].__dict__)
+                self.assertIn("released", result.objects[obj_name].__dict__)
+                self.assertIn("placed", result.objects[obj_name].__dict__)
+                self.assertIn("verified", result.objects[obj_name].__dict__)
+        finally:
+            environment.close()
 
 
 class TestBimanualActions(unittest.TestCase):

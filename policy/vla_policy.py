@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from enum import Enum
+from pathlib import Path
 from typing import Any
 
 from .base_policy import BasePolicy
@@ -17,6 +18,7 @@ class VLAStates(Enum):
     READY = "ready"
     FAILED = "failed"
     UNAVAILABLE = "unavailable"
+    FALLBACK = "fallback"
 
 
 class VLAUnavailableError(LeRobotUnavailableError):
@@ -49,17 +51,29 @@ class LeRobotVLA(BasePolicy):
 
     def load_checkpoint(self, checkpoint: str | None = None) -> None:
         """Load the configured LeRobot VLA checkpoint lazily.
-        
-        Args:
-            checkpoint: Optional checkpoint path. If None, uses config.
-            
+
+        Validates local checkpoint existence before loading.
+        Does not treat nonexistent paths as HuggingFace model IDs.
+
         Raises:
-            VLAUnavailableError: If checkpoint loading fails
+            VLAUnavailableError: If checkpoint loading fails or path doesn't exist locally
         """
         self.state = VLAStates.LOADING
+        reference = checkpoint or self.config.get("checkpoint")
+        if reference is None:
+            self.state = VLAStates.FAILED
+            raise VLAUnavailableError("No VLA checkpoint configured")
+        reference_path = Path(str(reference))
+        if not reference_path.exists():
+            self.state = VLAStates.FAILED
+            raise VLAUnavailableError(
+                f"VLA CHECKPOINT ERROR requested_checkpoint={reference} "
+                "checkpoint_type=local exists=false "
+                "action=VLA disabled; use scripted fallback or provide a valid checkpoint"
+            )
         try:
-            self.adapter.load_checkpoint(checkpoint)
-            self.loaded_checkpoint = checkpoint
+            self.adapter.load_checkpoint(reference)
+            self.loaded_checkpoint = reference
             self.state = VLAStates.READY
         except Exception as exc:
             self.state = VLAStates.FAILED
@@ -75,12 +89,13 @@ class LeRobotVLA(BasePolicy):
         """
         self.adapter.reset()
 
-    def predict(self, scene_state: Any, action_sequence: str | ActionSequence | None = None) -> dict[str, Any]:
+    def predict(self, scene_state: Any, action_sequence: str | ActionSequence | None = None, instruction: str | None = None) -> dict[str, Any]:
         """Return a dual-arm action from camera/state/language input.
         
         Args:
             scene_state: Current scene/state observation
             action_sequence: Optional action sequence to follow
+            instruction: Natural-language instruction for VLA model
             
         Returns:
             Command action dictionary or None if prediction fails
@@ -92,10 +107,14 @@ class LeRobotVLA(BasePolicy):
             raise VLAUnavailableError(f"VLA policy is not ready (state: {self.state}). Call load_checkpoint() first.")
         
         try:
-            return self.adapter.predict(scene_state, action_sequence)
+            return self.adapter.predict(scene_state, instruction)
         except LeRobotUnavailableError as exc:
             self.state = VLAStates.UNAVAILABLE
             raise VLAUnavailableError(str(exc)) from exc
+
+    def predict_with_action_sequence(self, scene_state: Any, action_sequence: Any, instruction: str | None = None) -> dict[str, Any]:
+        """Preprocess and predict using action sequence."""
+        return self.predict(scene_state, action_sequence, instruction)
 
     def close(self) -> None:
         """Clean up VLA resources."""

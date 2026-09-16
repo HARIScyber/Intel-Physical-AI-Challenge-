@@ -5,6 +5,7 @@ from language.command_schema import TaskCommand
 from perception.scene_state import SceneState
 from .action_sequence import Action, ActionSequence
 from .bimanual_planner import BimanualPlanner
+from .manipulation_state import create_state_machine, ManipulationState
 from .state_machine import PlanState, PlanStateMachine
 
 class TaskPlanner:
@@ -47,7 +48,7 @@ class TaskPlanner:
         return ActionSequence(actions, "recovery")
 
     def _set_table_actions(self, command: TaskCommand, scene: SceneState) -> list[Action]:
-        """Build the explicit dinner-table hierarchy."""
+        """Build the explicit dinner-table hierarchy with detailed manipulation steps."""
         actions = [Action("locate_drawer", 0.3, ("drawer",))]
         if not bool(scene.drawer_state.get("open", False)):
             actions.append(Action("open_drawer", 0.8, ("drawer",), arm="a"))
@@ -56,11 +57,18 @@ class TaskPlanner:
             if item in command.objects:
                 from policy.base_policy import OBJECT_ARM_MAP
                 arm = OBJECT_ARM_MAP.get(item, "a")
+                # Detailed manipulation sequence per object
                 actions.extend((
+                    Action("locate", 0.3, (item,), arm=arm),
+                    Action("pregrasp", 0.3, (item,), arm=arm),
                     Action("approach", 0.4, (item,), arm=arm),
                     Action("grasp", 0.5, (item,), arm=arm),
+                    Action("verify_grasp", 0.3, (item,), arm=arm),
+                    Action("lift", 0.4, (item,), arm=arm),
                     Action("transport", 0.6, (item,), arm=arm),
+                    Action("preplace", 0.3, (item,), arm=arm),
                     Action("release", 0.3, (item,), arm=arm),
+                    Action("verify_placement", 0.3, (item,), arm=arm),
                     Action("retract", 0.3, arm=arm),
                 ))
         return actions

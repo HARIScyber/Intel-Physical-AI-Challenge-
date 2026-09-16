@@ -29,6 +29,7 @@ class VLAPolicyTests(unittest.TestCase):
         self.assertEqual(VLAStates.READY.value, "ready")
         self.assertEqual(VLAStates.FAILED.value, "failed")
         self.assertEqual(VLAStates.UNAVAILABLE.value, "unavailable")
+        self.assertEqual(VLAStates.FALLBACK.value, "fallback")
 
     def test_vla_initialization(self) -> None:
         vla = LeRobotVLA()

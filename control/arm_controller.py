@@ -140,9 +140,18 @@ class ArmController:
                 current = np.clip(current + 0.1 * step, self.joint_limits[:, 0], self.joint_limits[:, 1])
             finally:
                 self._restore_temporary(snapshot)
-        if np.linalg.norm(self._pose_error(self.forward_kinematics(current), target)) > 0.03:
-            raise ValueError(f"IK did not converge for {self.name}")
+        fk = self.forward_kinematics(current)
+        pos_error = float(np.linalg.norm(np.asarray(fk.position) - target_position))
+        ori_error = self._angular_error(np.asarray(fk.orientation), target_quaternion)
+        if pos_error > 0.03 or ori_error > 0.05:
+            raise ValueError(f"IK did not converge for {self.name}: pos={pos_error:.4f} ori={ori_error:.4f}")
         return current
+
+    @staticmethod
+    def _angular_error(current_quat: np.ndarray, target_quat: np.ndarray) -> float:
+        """Compute angular error between two quaternions in radians."""
+        dot = float(np.clip(np.dot(current_quat, target_quat), -1.0, 1.0))
+        return 2.0 * np.arccos(abs(dot))
 
     def joint_positions(self) -> np.ndarray:
         """Read six joint positions from MuJoCo qpos."""
